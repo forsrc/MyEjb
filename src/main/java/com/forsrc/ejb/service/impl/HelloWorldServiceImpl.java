@@ -8,8 +8,8 @@ import com.forsrc.ejb.service.HelloWorldService;
 
 
 @Stateless
-@Local(HelloWorldService.class)
-@Remote(HelloWorldService.class)
+//@Local(HelloWorldService.class)
+//@Remote(HelloWorldService.class)
 public class HelloWorldServiceImpl implements HelloWorldService{
 
 	@Override

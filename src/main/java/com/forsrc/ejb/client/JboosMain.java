@@ -53,16 +53,18 @@ public class JboosMain {
 		final Hashtable jndiProperties = new Hashtable();
 		jndiProperties.put(Context.URL_PKG_PREFIXES,
 				"org.jboss.ejb.client.naming");
-		//jndiProperties.put(Context.PROVIDER_URL,"t3://localhost:8075");
-		jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY,"org.jnp.interfaces.NamingContextFactory");
+		// jndiProperties.put(Context.PROVIDER_URL,"t3://localhost:8075");
+		jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY,
+				"org.jnp.interfaces.NamingContextFactory");
 
 		InitialContext ctx;
 		try {
 			final Context context = new InitialContext(jndiProperties);
 
-			HelloWorldService helloworld = (HelloWorldService) context.lookup("ejb:/MyEjb/HelloWorldService!"
-					+ HelloWorldService.class.getName());
- 
+			HelloWorldService helloworld = (HelloWorldService) context
+					.lookup("ejb:/MyEjb/HelloWorldRemote!"
+							+ HelloWorldService.class.getName());
+
 			System.out.println(helloworld.hello("service"));
 		} catch (NamingException e) {
 			e.printStackTrace();

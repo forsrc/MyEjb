@@ -3,22 +3,24 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jee="http://www.springframework.org/schema/jee"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
 	<context:component-scan base-package="com.forsrc.ejb" />
-
+	<mvc:default-servlet-handler />
 	<mvc:annotation-driven />
 
-	<mvc:view-controller path="/" view-name="index" />
+	<!-- <mvc:view-controller path="/" view-name="index" /> -->
 
 	<mvc:interceptors>
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
 	</mvc:interceptors>
 
-	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<!-- <mvc:resources mapping="/static/**" location="/static/" /> -->
 
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
@@ -29,22 +31,29 @@
 		<property name="cacheSeconds" value="0" />
 	</bean>
 
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="" />
-		<property name="suffix" value=".jsp" />
-	</bean>
+	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<property name="prefix" value="" /> <property name="suffix" value=".jsp" 
+		/> </bean> -->
+
+	<util:properties id="jndienvironment" location="WEB-INF/classes/config/jndi.properties"/>
 
 
+	<!-- <jee:jndi-lookup id="helloWorldService" jndi-name="java:app/myejb/HelloWorldService" 
+		business-interface="com.forsrc.ejb.service.HelloWorldService" /> -->
 
-	<jee:jndi-lookup id="helloWorldService" jndi-name="java:app/myejb/HelloWorldService"
-		business-interface="com.forsrc.ejb.service.HelloWorldService" />
+	<jee:local-slsb id="helloWorldLocal" jndi-name="java:app/MyEjb/HelloWorldLocalImpl" 
+		business-interface="com.forsrc.ejb.local.HelloWorldLocal"> </jee:local-slsb>
 
-	<jee:local-slsb id="helloWorldLocal" jndi-name="java:app/myejb/HelloWorldLocal"
-		business-interface="com.forsrc.ejb.local.HelloWorldLocal" />
+	<jee:remote-slsb id="helloWorldRemote" jndi-name="java:app/MyEjb/HelloWorldRemoteImpl" 
+		business-interface="com.forsrc.ejb.remote.HelloWorldRemote" resource-ref="true" 
+		environment-ref="jndienvironment">
+	</jee:remote-slsb>
 
-	<jee:remote-slsb id="helloWorldRemote" jndi-name="java:app/myejb/HelloWorldRemote"
-		business-interface="com.forsrc.ejb.remote.HelloWorldRemote" />
+	<!-- <jee:remote-slsb id="helloWorldRemote" jndi-name="java:app/MyEjb/HelloWorldRemoteImpl" 
+		business-interface="com.forsrc.ejb.remote.HelloWorldRemote" resource-ref="false" 
+		environment-ref="jndienvironment"> <jee:environment> java.naming.factory.initial=org.jnp.interfaces.NamingContextFactory 
+		java.naming.factory.url.pkgs=org.jboss.naming:org.jnp.interfaces java.naming.provider.url=jnp://localhost:1099 
+		</jee:environment> </jee:remote-slsb> -->
 
 
 </beans>

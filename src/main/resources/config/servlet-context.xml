@@ -39,18 +39,18 @@
 
 
 	<!-- <jee:jndi-lookup id="helloWorldService" jndi-name="java:app/myejb/HelloWorldService" 
-		business-interface="com.forsrc.ejb.service.HelloWorldService" /> -->
+		business-interface="com.forsrc.ejb.demo.service.HelloWorldService" /> -->
 
 	<jee:local-slsb id="helloWorldLocal" jndi-name="java:app/MyEjb/HelloWorldLocalImpl" 
-		business-interface="com.forsrc.ejb.local.HelloWorldLocal"> </jee:local-slsb>
+		business-interface="com.forsrc.ejb.demo.local.HelloWorldLocal"> </jee:local-slsb>
 
 	<jee:remote-slsb id="helloWorldRemote" jndi-name="java:app/MyEjb/HelloWorldRemoteImpl" 
-		business-interface="com.forsrc.ejb.remote.HelloWorldRemote" resource-ref="true" 
+		business-interface="com.forsrc.ejb.demo.remote.HelloWorldRemote" resource-ref="true" 
 		environment-ref="jndienvironment">
 	</jee:remote-slsb>
 
 	<!-- <jee:remote-slsb id="helloWorldRemote" jndi-name="java:app/MyEjb/HelloWorldRemoteImpl" 
-		business-interface="com.forsrc.ejb.remote.HelloWorldRemote" resource-ref="false" 
+		business-interface="com.forsrc.ejb.demo.remote.HelloWorldRemote" resource-ref="false" 
 		environment-ref="jndienvironment"> <jee:environment> java.naming.factory.initial=org.jnp.interfaces.NamingContextFactory 
 		java.naming.factory.url.pkgs=org.jboss.naming:org.jnp.interfaces java.naming.provider.url=jnp://localhost:1099 
 		</jee:environment> </jee:remote-slsb> -->

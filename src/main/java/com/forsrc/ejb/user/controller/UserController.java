@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.forsrc.ejb.user.service.UserService;
 import com.forsrc.ejb.user.service.UserServiceLocal;
 import com.forsrc.exception.ServiceException;
 import com.forsrc.pojo.User;
@@ -23,7 +24,7 @@ import com.forsrc.pojo.User;
 public class UserController {
 
 	@EJB(mappedName = "java:app/MyEjb/UserServiceImpl!com.forsrc.ejb.user.service.UserServiceLocal")
-	private UserServiceLocal userService;
+	private UserService userService;
 	
 	@RequestMapping(value = { "/new" }, method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody

@@ -10,31 +10,29 @@
 		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
-	<context:component-scan base-package="com.forsrc.ejb" />
-	<mvc:default-servlet-handler />
-	<mvc:annotation-driven />
 
-	<!-- <mvc:view-controller path="/" view-name="index" /> -->
+	<util:properties id="jndienvironment"
+		location="WEB-INF/classes/config/jndi.properties" />
 
-	<mvc:interceptors>
-		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
-	</mvc:interceptors>
 
-	<!-- <mvc:resources mapping="/static/**" location="/static/" /> -->
+	<jee:local-slsb id="helloWorldLocal" jndi-name="java:app/MyEjb/HelloWorldLocalImpl"
+		business-interface="com.forsrc.ejb.demo.local.HelloWorldLocal">
+	</jee:local-slsb>
 
-	<bean id="localeResolver"
-		class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
+	<jee:remote-slsb id="helloWorldRemote"
+		jndi-name="java:app/MyEjb/HelloWorldRemoteImpl" business-interface="com.forsrc.ejb.demo.remote.HelloWorldRemote"
+		resource-ref="true" environment-ref="jndienvironment">
+	</jee:remote-slsb>
 
-	<bean id="messageSource"
-		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basename" value="/WEB-INF/classes/config/messages" />
-		<property name="cacheSeconds" value="0" />
-	</bean>
+	<jee:remote-slsb id="helloWorldRemoteImpl"
+		jndi-name="MyEjb/HelloWorldRemoteImpl!com.forsrc.ejb.demo.remote.HelloWorldRemote"
+		business-interface="com.forsrc.ejb.demo.remote.HelloWorldRemote"
+		resource-ref="false" environment-ref="jndienvironment">
+		<jee:environment>
+			java.naming.factory.initial=org.jboss.naming.remote.client.InitialContextFactory
+			java.naming.provider.url=http-remoting://localhost:8075
+		</jee:environment>
+	</jee:remote-slsb>
 
-	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
-		<property name="prefix" value="" /> <property name="suffix" value=".jsp" 
-		/> </bean> -->
-
-	<import resource="spring-ejb.xml" />
 
 </beans>

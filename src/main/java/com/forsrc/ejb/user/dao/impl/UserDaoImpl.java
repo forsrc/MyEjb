@@ -10,9 +10,9 @@ import com.forsrc.ejb.user.dao.UserDaoLocal;
 import com.forsrc.ejb.user.dao.UserDaoRemote;
 import com.forsrc.pojo.User;
 
-@Stateless
 @Local(UserDaoLocal.class)
 @Remote(UserDaoRemote.class)
+@Stateless()
 public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao {
 
 }
